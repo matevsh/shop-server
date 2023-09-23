@@ -6,7 +6,5 @@ export function response(
   overwrite?: Partial<HttpResponse>
 ) {
   const currentResponse = httpResponses[statusCode];
-  Object.assign(currentResponse, overwrite);
-
-  return currentResponse;
+  return { ...structuredClone(currentResponse), overwrite };
 }
