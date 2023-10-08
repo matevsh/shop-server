@@ -21,9 +21,7 @@ function validate<T>(
   return async (req: Request, res: Response) => {
     try {
       req.body = schema.parse(req.body);
-      const xd = await fn(req as TypedRequest<T>, res);
-      console.log(xd);
-      return xd;
+      return await fn(req as TypedRequest<T>, res);
     } catch (e) {
       if (e instanceof ZodError) {
         throw new InvalidBodyError(e.message, JSON.stringify(e.flatten()));

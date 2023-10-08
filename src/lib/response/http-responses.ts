@@ -26,4 +26,24 @@ export const httpResponses = {
     success: true,
     message: 'Ok',
   },
+  '201': {
+    httpStatus: 201,
+    success: true,
+    message: 'Created',
+  },
+  '403': {
+    httpStatus: 403,
+    success: false,
+    message: 'Forbidden',
+  },
+  '401': {
+    httpStatus: 401,
+    success: false,
+    message: 'Unauthorized',
+  },
+  '404': {
+    httpStatus: 404,
+    success: false,
+    message: 'Not Found',
+  },
 } satisfies Record<PropertyKey, HttpResponse>;

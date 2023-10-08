@@ -1,10 +1,10 @@
 import type { HttpResponse } from '~/lib/response/types';
 import { httpResponses } from '~/lib/response/http-responses';
 
-export function response(
+export function $response(
   statusCode: keyof typeof httpResponses,
   overwrite?: Partial<HttpResponse>
 ) {
   const currentResponse = httpResponses[statusCode];
-  return { ...structuredClone(currentResponse), overwrite };
+  return { ...structuredClone(currentResponse), ...overwrite };
 }

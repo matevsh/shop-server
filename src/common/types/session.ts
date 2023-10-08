@@ -1,3 +1,3 @@
 export type Session = {
-  isAdmin: boolean;
+  uuid: string;
 };

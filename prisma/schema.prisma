@@ -11,11 +11,12 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(uuid())
-  name      String  @unique
-  keyString String
-  isAdmin   Boolean @default(false)
-  Log       Log[]
+  id           String         @id @default(uuid())
+  name         String         @unique
+  keyString    String
+  isAdmin      Boolean        @default(false)
+  Log          Log[]
+  RefreshToken RefreshToken[]
 }
 
 model Item {
@@ -34,4 +35,14 @@ model Log {
   message   String
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  token     String   @unique
+  ip        String
+  enabled   Boolean  @default(true)
 }

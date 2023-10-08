@@ -4,7 +4,8 @@ import * as process from 'process';
 
 const envSchema = z.object({
   PORT: z.coerce.number(),
-  SESSION_SECRET: z.string(),
+  ACCESS_TOKEN_SECRET: z.string(),
+  REFRESH_TOKEN_SECRET: z.string(),
 });
 
 export const env = envSchema.parse(process.env);

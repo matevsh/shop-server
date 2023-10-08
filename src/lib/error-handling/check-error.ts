@@ -1,5 +1,5 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { response } from '~/lib/response/response';
+import { $response } from '~/lib/response/response';
 import { prismaError } from '~/lib/error-handling/errors/prisma-errors';
 import { prisma } from '~/database/client';
 import { httpCodes } from '~/lib/http-codes';
@@ -18,7 +18,7 @@ export async function checkError(e: unknown) {
         },
       });
 
-      return response(httpCodes.conflict);
+      return $response(httpCodes.conflict);
     }
 
     if (e.code === prismaError.validation.code) {
@@ -29,7 +29,7 @@ export async function checkError(e: unknown) {
           message: JSON.stringify(e.message),
         },
       });
-      return response(httpCodes.unprocessable_content);
+      return $response(httpCodes.unprocessable_content);
     }
 
     await prisma.log.create({
@@ -40,7 +40,7 @@ export async function checkError(e: unknown) {
       },
     });
 
-    return response(httpCodes.bad_request);
+    return $response(httpCodes.bad_request);
   }
 
   if (e instanceof InvalidBodyError) {
@@ -52,7 +52,7 @@ export async function checkError(e: unknown) {
       },
     });
 
-    return response(httpCodes.unprocessable_content);
+    return $response(httpCodes.unprocessable_content);
   }
 
   if (e instanceof UnknownParsingError) {
@@ -64,8 +64,8 @@ export async function checkError(e: unknown) {
       },
     });
 
-    return response(httpCodes.unprocessable_content);
+    return $response(httpCodes.unprocessable_content);
   }
 
-  return response(httpCodes.server_error);
+  return $response(httpCodes.server_error);
 }

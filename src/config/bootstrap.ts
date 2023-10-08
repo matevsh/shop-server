@@ -1,21 +1,18 @@
-import { env } from './env';
-import express from 'express';
-import session from 'express-session';
+import cookieParser from 'cookie-parser';
 import { router } from '~/common/router';
-import { YEAR_MS } from '~/common/constants/time';
+import express from 'express';
+import { env } from './env';
+import cors from 'cors';
 
 export function bootstrap(app: express.Express) {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser());
 
   app.use(
-    session({
-      secret: env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-        maxAge: YEAR_MS,
-      },
+    cors({
+      credentials: true,
+      origin: 'http://localhost:3000',
     })
   );
 
