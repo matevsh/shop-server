@@ -1,9 +1,10 @@
 import type { NextFunction, Request, Response } from 'express';
-import { $response } from '~/lib/response';
-import { httpCodes } from '~/lib/http-codes';
-import { $checkSession, $verify } from '~/lib/jwt/jwt';
-import type { Session } from '~/common/types/session';
-import { prisma } from '~/database/client';
+import { $response } from '>/response';
+import { httpCodes } from '>/http-codes';
+import { $verify } from '>/jwt/jwt';
+import type { Session } from '@/common/types/session';
+import { prisma } from '@/database/client';
+import { $checkToken } from '@/common/utils/check-token';
 
 export async function adminGuard(
   req: Request,
@@ -13,7 +14,7 @@ export async function adminGuard(
   const token = req.cookies?.accessToken;
   const refreshToken = req.cookies?.refreshToken;
 
-  const accessToken = await $checkSession(token, refreshToken, res);
+  const accessToken = await $checkToken(token, refreshToken, res);
 
   const unauthorized = $response(httpCodes.unauthorized);
 

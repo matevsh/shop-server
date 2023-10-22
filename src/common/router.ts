@@ -1,9 +1,6 @@
 import { Router } from 'express';
-import { authRouter } from '~/auth/auth.router';
-import { productsRouter } from '~/products/products.router';
+import { appRouter } from '@/app';
 
 export const router = Router();
 
-router.use('/auth', authRouter);
-
-router.use('/product', productsRouter);
+router.use(appRouter);

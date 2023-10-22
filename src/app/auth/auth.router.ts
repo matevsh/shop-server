@@ -5,7 +5,7 @@ import {
   registerController,
   sessionController,
 } from '~/auth/auth.controller';
-import { guestOnly } from '~/common/middlewares/guest-only';
+import { guestOnly } from '@/common/middlewares/guest-only';
 
 export const authRouter = Router();
 

@@ -1,7 +1,7 @@
 import type { Response, Request, NextFunction } from 'express';
-import { $checkSession } from '~/lib/jwt/jwt';
-import { $response } from '~/lib/response';
-import { httpCodes } from '~/lib/http-codes';
+import { $response } from '>/response';
+import { httpCodes } from '>/http-codes';
+import { $checkToken } from '@/common/utils/check-token';
 
 export async function guestOnly(
   req: Request,
@@ -11,7 +11,7 @@ export async function guestOnly(
   const token = req.cookies?.accessToken;
   const refreshToken = req.cookies?.refreshToken;
 
-  const accessToken = await $checkSession(token, refreshToken, res);
+  const accessToken = await $checkToken(token, refreshToken, res);
 
   const response = $response(httpCodes.forbidden);
 

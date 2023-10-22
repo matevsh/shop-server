@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { checkError } from '~/lib/error-handling/check-error';
-import type { HttpResponse } from '~/lib/response/types';
+import { checkError } from '>/error-handling/check-error';
+import type { HttpResponse } from '>/response/types';
 
 export function $catch<R extends Request>(
   fn: (req: Request, res: Response) => HttpResponse | Promise<HttpResponse>

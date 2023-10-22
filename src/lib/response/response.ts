@@ -1,5 +1,5 @@
-import type { HttpResponse } from '~/lib/response/types';
-import { httpResponses } from '~/lib/response/http-responses';
+import type { HttpResponse } from '>/response/types';
+import { httpResponses } from '>/response/http-responses';
 
 export function $response(
   statusCode: keyof typeof httpResponses,

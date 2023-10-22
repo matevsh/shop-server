@@ -1,11 +1,12 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { $response } from '~/lib/response/response';
-import { prismaError } from '~/lib/error-handling/errors/prisma-errors';
-import { prisma } from '~/database/client';
-import { httpCodes } from '~/lib/http-codes';
-import { InvalidBodyError } from '~/lib/validate-body/errors/invalid-body';
-import { parseErrors } from '~/lib/error-handling/errors/parse-errors';
-import { UnknownParsingError } from '~/lib/validate-body/errors/unknown';
+import { $response } from '>/response/response';
+import { prismaError } from '>/error-handling/errors/prisma-errors';
+import { prisma } from '@/database/client';
+import { httpCodes } from '>/http-codes';
+import { InvalidBodyError } from '>/validate-body/errors/invalid-body';
+import { parseErrors } from '>/error-handling/errors/parse-errors';
+import { UnknownParsingError } from '>/validate-body/errors/unknown';
+import { MissingParamsError } from '>/params/errors/missing-params';
 
 export async function checkError(e: unknown) {
   if (e instanceof PrismaClientKnownRequestError) {
@@ -48,7 +49,7 @@ export async function checkError(e: unknown) {
       data: {
         name: parseErrors.invalid_body.name,
         error: true,
-        message: JSON.stringify(e.message),
+        message: JSON.stringify(e.cause),
       },
     });
 
@@ -60,11 +61,25 @@ export async function checkError(e: unknown) {
       data: {
         name: parseErrors.unknown.name,
         error: true,
-        message: JSON.stringify(e.message),
+        message: JSON.stringify(e),
       },
     });
 
     return $response(httpCodes.unprocessable_content);
+  }
+
+  if (e instanceof MissingParamsError) {
+    await prisma.log.create({
+      data: {
+        name: e.name,
+        error: true,
+        message: JSON.stringify(e.message),
+      },
+    });
+
+    return $response(httpCodes.unprocessable_content, {
+      message: e.message,
+    });
   }
 
   return $response(httpCodes.server_error);

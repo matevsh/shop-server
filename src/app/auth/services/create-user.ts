@@ -1,5 +1,5 @@
 import type { RegisterBody } from '~/auth/models/register-body';
-import { prisma } from '~/database/client';
+import { prisma } from '@/database/client';
 import bcrypt from 'bcrypt';
 
 export async function createUser(user: RegisterBody) {

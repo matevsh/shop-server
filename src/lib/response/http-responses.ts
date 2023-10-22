@@ -1,4 +1,4 @@
-import type { HttpResponse } from '~/lib/response/types';
+import type { HttpResponse } from '>/response/types';
 
 export const httpResponses = {
   '422': {

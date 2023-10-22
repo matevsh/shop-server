@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { $checkSession } from '~/lib/jwt/jwt';
+import { $checkToken } from '@/common/utils/check-token';
 
 export async function authGuard(
   req: Request,
@@ -9,7 +9,9 @@ export async function authGuard(
   const token = req.cookies?.accessToken;
   const refreshToken = req.cookies?.refreshToken;
 
-  const result = await $checkSession(token, refreshToken, res);
+  const result = await $checkToken(token, refreshToken, res);
+
+  req.cookies.accessToken = result;
 
   result && next();
 }

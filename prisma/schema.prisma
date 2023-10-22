@@ -17,14 +17,30 @@ model User {
   isAdmin      Boolean        @default(false)
   Log          Log[]
   RefreshToken RefreshToken[]
+  Shop         Shop[]
 }
 
-model Item {
-  id        String    @id @default(uuid())
-  title     String
-  price     Int
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
+model Shop {
+  id          String    @id @default(uuid())
+  name        String
+  imageBase64 String?
+  createdAt   DateTime  @default(now())
+  deletedAt   DateTime?
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  product     Product[]
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  title       String
+  description String    @db.Text
+  price       Int
+  imageBase64 String?
+  createdAt   DateTime  @default(now())
+  deletedAt   DateTime?
+  shop        Shop?     @relation(fields: [shopId], references: [id])
+  shopId      String?
 }
 
 model Log {

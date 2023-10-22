@@ -1,4 +1,4 @@
-import { ValidateBodyError } from '~/lib/validate-body/errors/base';
+import { ValidateBodyError } from '>/validate-body/errors/base';
 
 export class InvalidBodyError extends ValidateBodyError {
   constructor(
