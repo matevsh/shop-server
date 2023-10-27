@@ -1,5 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { $checkToken } from '@/common/utils/check-token';
+import { $response } from '>/response';
+import { httpCodes } from '>/http-codes';
 
 export async function authGuard(
   req: Request,
@@ -13,5 +15,6 @@ export async function authGuard(
 
   req.cookies.accessToken = result;
 
-  result && next();
+  const response = $response(httpCodes.unauthorized);
+  result ? next() : res.status(response.httpStatus).json(response);
 }

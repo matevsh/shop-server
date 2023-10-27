@@ -10,28 +10,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model user {
   id           String         @id @default(uuid())
   name         String         @unique
   keyString    String
   isAdmin      Boolean        @default(false)
-  Log          Log[]
-  RefreshToken RefreshToken[]
-  Shop         Shop[]
+  Log          log[]
+  RefreshToken refreshToken[]
+  Shop         shop[]
 }
 
-model Shop {
-  id          String    @id @default(uuid())
+model shop {
+  id          String     @id @default(uuid())
   name        String
   imageBase64 String?
-  createdAt   DateTime  @default(now())
+  createdAt   DateTime   @default(now())
   deletedAt   DateTime?
-  user        User      @relation(fields: [userId], references: [id])
+  user        user       @relation(fields: [userId], references: [id])
   userId      String
-  product     Product[]
+  category    category[]
 }
 
-model Product {
+model category {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+  shop      shop?     @relation(fields: [shopId], references: [id])
+  shopId    String?
+  product   product[]
+}
+
+model product {
   id          String    @id @default(uuid())
   title       String
   description String    @db.Text
@@ -39,24 +49,24 @@ model Product {
   imageBase64 String?
   createdAt   DateTime  @default(now())
   deletedAt   DateTime?
-  shop        Shop?     @relation(fields: [shopId], references: [id])
-  shopId      String?
+  categoryId  String?
+  category    category? @relation(fields: [categoryId], references: [id])
 }
 
-model Log {
+model log {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   error     Boolean
   name      String
   message   String
-  user      User?    @relation(fields: [userId], references: [id])
+  user      user?    @relation(fields: [userId], references: [id])
   userId    String?
 }
 
-model RefreshToken {
+model refreshToken {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  user      user     @relation(fields: [userId], references: [id])
   userId    String
   token     String   @unique
   ip        String

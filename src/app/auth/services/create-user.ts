@@ -1,6 +1,7 @@
 import type { RegisterBody } from '~/auth/models/register-body';
 import { prisma } from '@/database/client';
 import bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 
 export async function createUser(user: RegisterBody) {
   const keyString = crypto.randomUUID();

@@ -7,8 +7,6 @@ export function getProductById(id: string | undefined) {
     where: {
       id,
     },
-    include: {
-      shop: true,
-    },
+    include: {},
   });
 }
